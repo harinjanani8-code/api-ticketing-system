@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Country {
+  id          Int      @id @default(autoincrement())
+  countryCode String   @unique @db.VarChar(8)
+  countryName String   @db.VarChar(100)
+  status      String   @default("Active") @db.VarChar(20)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Team {
+  id        Int      @id @default(autoincrement())
+  teamName  String   @db.VarChar(100)
+  teamCode  String   @unique @db.VarChar(10)
+  status    String   @default("Active") @db.VarChar(20)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Client {
+  id         Int      @id @default(autoincrement())
+  clientName String   @db.VarChar(100)
+  clientCode String   @unique @db.VarChar(10)
+  country    String   @db.VarChar(100)
+  email      String   @unique @db.VarChar(120)
+  status     String   @default("Active") @db.VarChar(20)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique @db.VarChar(50)
+  email     String   @unique @db.VarChar(120)
+  team      String   @db.VarChar(100)
+  status    String   @default("Active") @db.VarChar(20)
+  password  String   @db.VarChar(200)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Ticket {
+  id           Int      @id @default(autoincrement())
+  ticketNo     String   @unique @db.VarChar(30)
+  client       String   @db.VarChar(100)
+  ticketDate   String   @db.VarChar(20)
+  deliveryDate String   @db.VarChar(20)
+  team         String   @db.VarChar(100)
+  requestedBy  String   @db.VarChar(100)
+  assignTo     String   @db.VarChar(100)
+  sprint       String   @db.VarChar(50)
+  ticketStatus String   @default("Open") @db.VarChar(30)
+  description  String   @db.VarChar(500)
+  owner        String   @db.VarChar(100)
+  ownerHrs     Float
+  developer    String   @db.VarChar(100)
+  developerHrs Float
+  tester       String   @db.VarChar(100)
+  testerHrs    Float
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model TicketUpdate {
+  id           Int      @id @default(autoincrement())
+  ticketNo     String   @db.VarChar(30)
+  updateStatus String   @default("Development") @db.VarChar(30)
+  assignTo     String   @db.VarChar(100)
+  assignedOn   String   @db.VarChar(20)
+  hours        Float
+  comments     String   @db.VarChar(500)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
